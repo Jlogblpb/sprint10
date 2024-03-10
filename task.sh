@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # создаём каталог task с вложенными директориями
 # task
@@ -6,9 +6,9 @@
 #   dir2
 #   dir3
 #       dir4
-mkdir -p /task/dir1
-mkdir -p /task/dir2
-mkdir -p /task/dir3/dir4
+mkdir -p task/dir1
+mkdir -p task/dir2
+mkdir -p task/dir3/dir4
 
 # изменяем текущую директорию на task
 cd task
@@ -23,7 +23,7 @@ echo '#!/bin/bash' > dir2/hello.sh
 echo 'echo "$1, привет!"' >> dir2/hello.sh
 
 # устанавливаем для task/dir2/hello.sh права rwxrw-r--
-chmod 764 /task/dir2/hello.sh
+chmod 764 dir2/hello.sh
 
 # сохраняем список файлов task/dir2 в task/dir2/list.txt
 cd dir2
@@ -35,9 +35,11 @@ cp dir2/*.* dir3/dir4
 
 # записываем в task/dir1/summary.txt список файлов с расширением *.txt
 # находящихся в task, включая поддиректории
-find /task *.txt > dir1/summary.txt
+cd ..
+find /task -name "*.txt" > task/dir1/summary.txt
 
 # дописываем в task/dir1/summary.txt содержимое task/dir2/list.txt\
+cd task
 cat dir2/list.txt >> dir1/summary.txt
 
 # определяем переменную окружения NAME со значением "Всем студентам"
@@ -45,7 +47,7 @@ NAME='Всем студентам'
 
 # запускаем task/dir2/hello.sh с переменной окружения NAME в качестве аргумента
 # вывод скрипта должен дописаться в файл task/dir1/summary.txt
-dir2/hello.sh --NAME >> dir1/summary.txt
+sh ./dir2/hello.sh $NAME >> dir1/summary.txt
 
 # перемещаем с переименованием task/dir1/summary.txt в task/Практическое задание
 mv dir1/summary.txt Практическое_задание
